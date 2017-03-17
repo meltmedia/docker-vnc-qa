@@ -44,10 +44,13 @@ RUN sudo useradd srvuser --shell /bin/bash --create-home \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'srvuser:secret' | chpasswd
 
-# install firefox
-RUN mkdir -p /opt/firefox/46.0.1 \
+# install firefox 46
+RUN sudo rm -rf /opt/firefox \
+  && sudo rm -rf /usr/bin/firefox \
+  && mkdir -p /opt/firefox/46.0.1 \
   && cd /opt/firefox/46.0.1 \
-  && curl -sL "https://ftp.mozilla.org/pub/firefox/releases/46.0.1/linux-x86_64/en-US/firefox-46.0.1.tar.bz2" | tar jx --strip-components 1
+  && curl -sL "https://ftp.mozilla.org/pub/firefox/releases/46.0.1/linux-x86_64/en-US/firefox-46.0.1.tar.bz2" | tar jx --strip-components 1 \
+  && sudo ln -s /opt/firefox/46.0.1/firefox /usr/bin/firefox
 
 # install supervisord
 RUN pip install supervisor \
