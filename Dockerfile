@@ -32,6 +32,7 @@ RUN apt-get update -qqy \
     xfonts-scalable \
     openbox \
     firefox \
+    libasound2 \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
   && mkdir -p /opt/bin \
   && mkdir -p /root/.vnc \
