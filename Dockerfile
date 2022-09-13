@@ -1,11 +1,15 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ENV SCREEN_WIDTH 1360
 ENV SCREEN_HEIGHT 1020
 ENV SCREEN_DEPTH 24
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install all of the package dependencies
 RUN apt-get update -qqy \
+  && apt upgrade -y \
+  && apt install software-properties-common -y \
+  && add-apt-repository ppa:deadsnakes/ppa \
   && apt-get -qqy --no-install-recommends install \
     bzip2 \
     ca-certificates \
@@ -16,8 +20,7 @@ RUN apt-get update -qqy \
     git-core \
     openssl \
     libssl-dev \
-    python \
-    python-dev \
+    python3.10 \
     libevent1-dev \
     libffi-dev \
     x11-utils \
@@ -37,7 +40,7 @@ RUN apt-get update -qqy \
   && mkdir -p /opt/bin \
   && mkdir -p /root/.vnc \
   && x11vnc -storepasswd secret /root/.vnc/passwd \
-  && curl -s -q "https://bootstrap.pypa.io/get-pip.py" | python
+  && curl -s -q "https://bootstrap.pypa.io/get-pip.py" | python3.10
 
 # Add normal user with passwordless sudo
 RUN sudo useradd srvuser --shell /bin/bash --create-home \
@@ -59,7 +62,7 @@ RUN sudo rm -rf /opt/firefox \
   && sudo ln -s /opt/firefox/46.0.1/firefox /usr/bin/firefox
 
 # install supervisord
-RUN pip install supervisor \
+RUN python3.10 -m pip install supervisor \
   && mkdir -p /etc/supervisord/conf.d /var/log/supervisor
 
 COPY supervisord.conf /etc/supervisord/supervisord.conf
