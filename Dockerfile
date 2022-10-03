@@ -56,17 +56,15 @@ RUN sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-li
 # Install Firefox 59
 RUN sudo rm -rf /opt/firefox \
   && sudo rm -rf /usr/bin/firefox \
-  &&sudo mkdir -p /opt/firefox/59 \
-  && cd /opt/firefox/59 \
-  && curl -sL "https://ftp.mozilla.org/pub/firefox/releases/59.0/linux-x86_64/en-US/firefox-59.0.tar.bz2" | tar jx --strip-components 1 \
-  && sudo ln -s /opt/firefox/59/firefox /usr/bin/firefox
+  &&sudo mkdir -p /opt/firefox/84 \
+  && cd /opt/firefox/84 \
+  && curl -sL "https://ftp.mozilla.org/pub/firefox/releases/84.0/linux-x86_64/en-US/firefox-84.0.tar.bz2" | tar jx --strip-components 1 \
+  && sudo ln -s /opt/firefox/84/firefox /usr/bin/firefox
 
 # Install the Firefox GeckoDriver
 RUN mkdir -p /opt/drivers/firefox/ \
   && cd /opt/drivers/firefox/ \
-  && wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz \
-  && tar xvzf geckodriver-v0.20.0-linux64.tar.gz \
-  && rm geckodriver-v0.20.0-linux64.tar.gz \
+  && curl -sL "https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz" | tar zx \
   && sudo ln -s /opt/drivers/firefox/geckodriver /usr/local/bin/geckodriver
 
 # install supervisord
